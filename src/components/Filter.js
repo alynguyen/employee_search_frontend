@@ -1,9 +1,11 @@
 import React from 'react';
+import styled from 'styled-components';
+import { Title } from '../Theme';
 
 const Filter = () => {
     return (
         <Container>
-            Filter
+            <Title>Filters</Title>
         </Container>
     );
 }
@@ -12,8 +14,8 @@ export default Filter;
 
 const Container = styled.div`
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 20rem;
+    flex-flow: column;
+    width: 15rem;
+    background-color: grey;
+    height: 100%;
 `

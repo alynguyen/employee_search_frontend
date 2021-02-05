@@ -1,6 +1,13 @@
 import React from 'react';
 import { ThemeProvider, css } from 'styled-components';
+import styled from 'styled-components';
 
+export const Title = styled.div`
+    font-size: 1.5em;
+    font-weight: 700;
+    margin-left: 2rem;
+    margin-top: 1.5rem;
+`
 
 const fadeUp = css`
     opacity: 0;
@@ -19,7 +26,7 @@ const fadeUp = css`
 
 export const theme = {
     colors: {
-        primary: "#4597b7",
+        primary: "#6F6F6F",
         secondary: "#6C757D;",
         text: "#424242",
         textSecondary: "#868ba1",
@@ -31,7 +38,7 @@ export const theme = {
         toggleOff: "#BBBBBB",
         error: "#DC3545"
     },
-    fonts: ["Poppins", "sans-serif"],
+    fonts: 'Roboto, sans-serif',
     animations: {
         fadeUp,
     }

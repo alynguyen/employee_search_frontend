@@ -23,6 +23,9 @@ export default Home;
 
 const Container = styled.div`
     display: flex;
+    flex: 1;
+    font-family: ${({ theme }) => theme.fonts };
+    color: ${({ theme }) => theme.colors.primary };
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
