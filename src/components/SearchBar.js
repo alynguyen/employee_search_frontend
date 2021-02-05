@@ -18,7 +18,9 @@ const SearchBar = () => {
                 value={searchText}
                 onChange={e => setSearchText(e.target.value)}
             />
-            <SearchIcon onClick={submitSearch}/>
+            <IconWrapper onClick={submitSearch}>
+                <SearchIcon/>
+            </IconWrapper>
         </SearchWrapper>
     );
 }
@@ -32,12 +34,16 @@ const TextInput = styled.input`
     border: none;
     font-size: 1.2em;
     font-weight: 500;
-    margin-right: 1rem;
     border-right: 3px solid ${({ theme }) => theme.colors.primary };
 
     ::-webkit-input-placeholder {
         text-align: center;
     }
+`
+
+const IconWrapper = styled.div`
+    cursor: pointer;
+    padding: .5rem 1rem .5rem 1rem;
 `
 
 const SearchIcon = styled(FaSearch)`
@@ -47,7 +53,7 @@ const SearchIcon = styled(FaSearch)`
 
 const SearchWrapper = styled.div`
     background-color: #fff;
-    padding: .5rem 1rem;
+    padding: 0 0 0 1rem;
     border-radius: 1rem;
     border: 3px solid ${({ theme }) => theme.colors.primary };
     display: flex;

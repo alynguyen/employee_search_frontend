@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useCallback } from 'react';
 import styled from 'styled-components';
 import Filter from './Filter';
 import { Title } from '../Theme';
@@ -28,34 +28,40 @@ const Results = () => {
     }
 
 
-    const Table = () => {
+    const Table = useCallback(() => {
         return(
             <TableContainer>
                 <StyledTable>
-                    <tr>
-                        <th>Employee ID</th>
-                        <th>Last Name</th>
-                        <th>First Name</th>
-                        <th>Title</th>
-                        <th>Email</th>
-                        <th>Phone Number</th>
-                        <th>Date of Birth</th>
-                        <th>Gender</th>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>Nguyen</td>
-                        <td>Aly</td>
-                        <td>Software Engineer</td>
-                        <td>aly@email.com</td>
-                        <td>295023905</td>
-                        <td>12/07/1989</td>
-                        <td>M</td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>Employee ID</th>
+                            <th>Last Name</th>
+                            <th>First Name</th>
+                            <th>Title</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                            <th>Date of Birth</th>
+                            <th>Gender</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {results.map((r, idx) => (
+                            <tr key={`results-${r.id}-${idx}`}>
+                                <td>{r.id}</td>
+                                <td>{r.lastName}</td>
+                                <td>{r.firstName}</td>
+                                <td>{r.title}</td>
+                                <td>{r.email}</td>
+                                <td>{r.phone}</td>
+                                <td>{r.dob}</td>
+                                <td>{r.gender}</td>
+                            </tr>
+                        ))}
+                    </tbody>
                 </StyledTable>
             </TableContainer>
         )
-    }
+    }, [results])
 
 
     return (
@@ -119,19 +125,32 @@ const NoResults = styled.div`
 `
 
 const TableContainer = styled.div`
-    margin: 1rem;
-    padding: 1rem;
-    height: 100%;
+    margin: 1.5rem 1rem 1rem 1rem;
+    padding: 0 1rem 1rem 1rem;
+    max-height: 80%;
+    overflow-y: scroll;
 `
 
 const StyledTable = styled.table`
-    text-align: center;
+    ${({ theme }) => theme.animations.fadeUp };
+    font-size: 1.1em;
+    overflow: auto;
+    text-align: left;
     border-spacing: 0;
     td, th {
-        padding: .2rem .5rem;
+        padding: .5rem;
         min-width: 4rem;
     };
     th {
-        border-bottom: 1px solid #000;
+        position: sticky;
+        top: 0;
+        background-color: #fff;
+        border-bottom: 1px solid ${({ theme }) => theme.colors.primary };
     };
+    td {
+        border-top: 1px solid grey;
+    };
+    tbody {
+
+    }
 `
