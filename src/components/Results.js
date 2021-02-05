@@ -17,7 +17,7 @@ const Results = () => {
                 </NoResults>
             )
         }
-        if (!results.length) {
+        if (results.length) {
             return(
                 <Table />
             )

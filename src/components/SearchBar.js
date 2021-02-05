@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { FaSearch } from 'react-icons/fa';
+import ContextProvider from '../ContextProvider';
+
 
 const SearchBar = () => {
+    const { 
+        searchText,
+        setSearchText,
+        submitSearch 
+    } = useContext(ContextProvider);
+
     return (
         <SearchWrapper>
             <TextInput 
                 placeholder='Search'
+                value={searchText}
+                onChange={e => setSearchText(e.target.value)}
             />
-            <SearchIcon />
+            <SearchIcon onClick={submitSearch}/>
         </SearchWrapper>
     );
 }
