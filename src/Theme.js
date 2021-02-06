@@ -23,6 +23,20 @@ const fadeUp = css`
     }
 `;
 
+const fadeRight = css`
+  opacity: 0;
+  visibility: hidden;
+  animation: 200ms ease-out 0s 1 fadeRight forwards;
+  transform: translate(-20px, 0);
+  @keyframes fadeRight {
+    100% {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(0, 0);
+    }
+  }
+`;
+
 
 export const theme = {
     colors: {
@@ -41,6 +55,7 @@ export const theme = {
     fonts: 'Roboto, sans-serif',
     animations: {
         fadeUp,
+        fadeRight
     }
 };
 

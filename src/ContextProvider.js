@@ -5,7 +5,7 @@ import { theme } from './Theme';
 export const Context = createContext();
 
 export const ContextProvider = ({ children }) => {
-    const [view, setView] = useState('results');
+    const [view, setView] = useState('search');
     const [loading, setLoading] = useState(false);
     const [results, setResults] = useState([]);
     const [searchText, setSearchText] = useState('');
@@ -25,6 +25,7 @@ export const ContextProvider = ({ children }) => {
             if (res.status === 200) {
                 const data = await res.json();
                 setResults(data);
+                setView('results');
             }
         }
         catch(err) {

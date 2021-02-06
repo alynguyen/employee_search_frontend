@@ -13,6 +13,7 @@ const Filter = () => {
 export default Filter;
 
 const Container = styled.div`
+    ${({ theme }) => theme.animations.fadeRight };
     display: flex;
     flex-flow: column;
     width: 15rem;

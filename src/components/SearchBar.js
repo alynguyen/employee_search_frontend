@@ -52,6 +52,7 @@ const SearchIcon = styled(FaSearch)`
 `
 
 const SearchWrapper = styled.div`
+    ${({ theme }) => theme.animations.fadeUp };
     background-color: #fff;
     padding: 0 0 0 1rem;
     border-radius: 1rem;
