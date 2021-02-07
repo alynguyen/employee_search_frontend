@@ -8,7 +8,8 @@ const SearchBar = () => {
     const { 
         searchText,
         setSearchText,
-        submitSearch 
+        submitSearch,
+        error
     } = useContext(ContextProvider);
 
     return (
@@ -19,7 +20,7 @@ const SearchBar = () => {
                 onChange={e => setSearchText(e.target.value)}
             />
             <IconWrapper onClick={submitSearch}>
-                <SearchIcon/>
+                <SearchIcon error={error ? 'true' : undefined}/>
             </IconWrapper>
         </SearchWrapper>
     );
@@ -48,7 +49,7 @@ const IconWrapper = styled.div`
 
 const SearchIcon = styled(FaSearch)`
     font-size: 1.5em;
-    color: ${({ theme }) => theme.colors.primary };
+    color: ${({ theme, error }) => error ? theme.colors.error : theme.colors.primary };
 `
 
 const SearchWrapper = styled.div`

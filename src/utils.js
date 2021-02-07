@@ -89,13 +89,13 @@ const ageRangeLabels = (age) => {
 
 const ageRange = (age) => {
     if (age <= 24) {
-        return 24
+        return [18, 24]
     } else if (age <= 32) {
-        return 32
+        return [24, 32]
     } else if (age <= 45) {
-        return 45
+        return [32, 45]
     } else if (age <= 55) {
-        return 55
+        return [55, 64]
     } else {
         return 65
     }
@@ -105,8 +105,10 @@ export const getAgeFilters = (data) => {
     let set = new Set();
     let filters = [];
     data.forEach(d => {
-        let age = moment().diff(d.dob, 'years');
-        set.add(ageRange(age))
+        let date = Date.parse(d.dob)
+        let age = moment().diff(date, 'years');
+        let range = ageRange(age)
+        set.add(range[1])
     })
     for (let value of set) {
         let temp = {
@@ -133,10 +135,12 @@ export const filterResults = async(data, filters, filterName) => {
 export const filterResultsAge = async(data, filters) => {
     let results = [];
     data.forEach(d => {
-        const age = moment().diff(d.dob, 'years');
+        const date = Date.parse(d.dob)
+        const age = moment().diff(date, 'years');
         filters.forEach(f => {
-            if (f.value <= age) {
-                const check = results.some(r => r.id === d.id)
+            let range = ageRange(f.value)
+            if (age > range[0] && age <= range[1]) {
+                let check = results.some(r => r.id === d.id)
                 if (!check) results.push(d)
             }
         })

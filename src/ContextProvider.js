@@ -18,8 +18,21 @@ export const ContextProvider = ({ children }) => {
     const [genderFilter, setGenderFilter] = useState([]);
     const [ageFilter, setAgeFilter] = useState([]);
     const [ageOptions, setAgeOptions] = useState([]);
+    const [error, setError] = useState(false);
+
+    const clearFilters = () => {
+        setAgeFilter([]);
+        setTitleFilter([]);
+        setGenderFilter([]);
+        setResults(sortAsc(originalResults, sort));
+    }
 
     const submitSearch = async() => {
+        if (!searchText) {
+            setError(true);
+            return;
+        }
+        setError(false);
         setLoading(true);
         try {
             const res = await fetch('http://localhost:3001/search', {
@@ -75,7 +88,9 @@ export const ContextProvider = ({ children }) => {
                     ageFilter,
                     setAgeFilter,
                     ageOptions,
-                    setAgeOptions
+                    setAgeOptions,
+                    clearFilters,
+                    error
                 }}
             >
                 {children}

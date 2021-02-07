@@ -2,14 +2,12 @@ import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Title, Header, multiSelectStyles } from '../Theme';
 import ContextProvider from '../ContextProvider';
-import Select from 'react-select';
 import MultiSelect from 'react-multi-select-component';
 import { filterResults, filterResultsAge } from '../utils';
 
 
 const Filter = () => {
     const {
-        results,
         titleFilter,
         setTitleFilter,
         genderFilter,
@@ -20,11 +18,12 @@ const Filter = () => {
         setResults,
         ageFilter,
         ageOptions,
-        setAgeFilter
+        setAgeFilter,
+        clearFilters
     } = useContext(ContextProvider);
 
     const showFilteredResults = async(e) => {
-        let newResults = results;
+        let newResults = originalResults;
         if (titleFilter.length) {
             newResults = await filterResults(originalResults, titleFilter, 'title');
         }
@@ -82,6 +81,7 @@ const Filter = () => {
                 />
             </Column>
             <Row>
+                <ButtonInv onClick={clearFilters}>Clear</ButtonInv>
                 <Button onClick={showFilteredResults}>Apply</Button>
             </Row>
         </Container>
@@ -104,11 +104,6 @@ const Column = styled.div`
     width: 100%;
     padding-left: 2rem;
     margin-top: 1rem;
-`
-
-const StyledSelect = styled(Select)`
-    width: 12rem;
-    margin-top: .5rem;
 `
 
 const Label = styled.label`
@@ -144,6 +139,20 @@ const Button = styled.button`
     padding: .15rem .75rem;
     border-radius: 1rem;
     background-color: ${({ theme }) => theme.colors.primary };
+    cursor: pointer;
+    min-height: 2rem;
+    min-width: 5rem;
+    font-weight: 700;
+`
+
+const ButtonInv = styled.button`
+    color: ${({ theme }) => theme.colors.primary };
+    border: 1px solid ${({ theme }) => theme.colors.primary };
+    margin-top: 1rem;
+    margin-right: 1rem;
+    padding: .15rem .75rem;
+    border-radius: 1rem;
+    background-color: #fff;
     cursor: pointer;
     min-height: 2rem;
     min-width: 5rem;

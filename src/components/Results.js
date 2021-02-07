@@ -2,40 +2,20 @@ import React, { useContext, useCallback } from 'react';
 import styled, { ThemeContext } from 'styled-components';
 import Filter from './Filter';
 import { Title, Header } from '../Theme';
-import ReactLoading from 'react-loading';
 import ContextProvider from '../ContextProvider';
-import Select from 'react-select';
 import { sortAsc, sortDsc } from '../utils';
 import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 
-const sortOptions = [
-    {value: 'id', label: 'Employee ID'},
-    {value: 'lastName', label: 'Last Name'},
-    {value: 'firstName', label: 'First Name'},
-    {value: 'title', label: 'Title'},
-    {value: 'email', label: 'Email'},
-    {value: 'phoneNumber', label: 'Phone Number'},
-    {value: 'dob', label: 'Date of Birth'},
-    {value: 'gender', label: 'Gender'},
-]
 
 const Results = () => {
     const { loading, results, setResults, sort, setSort } = useContext(ContextProvider);
     const themeContext = useContext(ThemeContext);
 
-    // const sortResults = (e) => {
-    //     if (e.value === sort.value) {
-    //         setResults(sortDesc(results, e.value))
-    //     } else {
-    //         setResults(sortAsc(results, e.value))
-    //     }
-    // }
-
     const showResults = () => {
         if (loading) {
             return(
                 <NoResults>
-                    <ReactLoading type={'bubbles'} color={'#6F6F6F'} height={'10%'} width={'10%'} />
+                    Loading..
                 </NoResults>
             )
         }
@@ -244,17 +224,6 @@ const StyledTable = styled.table`
     td {
         border-top: 1px solid grey;
     };
-`
-
-const StyledSelect = styled(Select)`
-    width: 10rem;
-`
-
-const SortWrapper = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 2rem;
 `
 
 const IconWrapper = styled.div`
