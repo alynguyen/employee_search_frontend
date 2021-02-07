@@ -1,6 +1,7 @@
 import React, { createContext, useState } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './Theme';
+import { sortAsc, getFilters, getAgeFilters } from './utils';
 
 export const Context = createContext();
 
@@ -9,6 +10,14 @@ export const ContextProvider = ({ children }) => {
     const [loading, setLoading] = useState(false);
     const [results, setResults] = useState([]);
     const [searchText, setSearchText] = useState('');
+    const [sort, setSort] = useState({ value: 'id', label: 'Employee ID'});
+    const [originalResults, setOriginalResults] = useState(null);
+    const [titleOptions, setTitleOptions] = useState([]);
+    const [genderOptions, setGenderOptions] = useState([]);
+    const [titleFilter, setTitleFilter] = useState([]);
+    const [genderFilter, setGenderFilter] = useState([]);
+    const [ageFilter, setAgeFilter] = useState([]);
+    const [ageOptions, setAgeOptions] = useState([]);
 
     const submitSearch = async() => {
         setLoading(true);
@@ -24,8 +33,12 @@ export const ContextProvider = ({ children }) => {
             })
             if (res.status === 200) {
                 const data = await res.json();
-                setResults(data);
+                setOriginalResults(sortAsc(data, sort));
+                setResults(sortAsc(data, sort));
                 setView('results');
+                setGenderOptions(getFilters(data, 'gender'));
+                setTitleOptions(getFilters(data, 'title'));
+                setAgeOptions(getAgeFilters(data));
             }
         }
         catch(err) {
@@ -44,11 +57,25 @@ export const ContextProvider = ({ children }) => {
                     view,
                     setView,
                     results,
+                    setResults,
                     loading,
                     setLoading,
                     submitSearch,
                     searchText,
-                    setSearchText
+                    setSearchText,
+                    sort,
+                    setSort,
+                    titleFilter,
+                    setTitleFilter,
+                    genderFilter,
+                    setGenderFilter,
+                    titleOptions,
+                    genderOptions,
+                    originalResults,
+                    ageFilter,
+                    setAgeFilter,
+                    ageOptions,
+                    setAgeOptions
                 }}
             >
                 {children}
