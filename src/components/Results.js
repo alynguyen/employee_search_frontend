@@ -1,19 +1,21 @@
 import React, { useContext, useCallback } from 'react';
-import styled from 'styled-components';
+import styled, { ThemeContext } from 'styled-components';
 import Filter from './Filter';
-import { Title } from '../Theme';
-import ReactLoading from 'react-loading';
+import { Title, Header } from '../Theme';
 import ContextProvider from '../ContextProvider';
+import { sortAsc, sortDsc } from '../utils';
+import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
 
 
 const Results = () => {
-    const { loading, results } = useContext(ContextProvider);
+    const { loading, results, setResults, sort, setSort } = useContext(ContextProvider);
+    const themeContext = useContext(ThemeContext);
 
     const showResults = () => {
         if (loading) {
             return(
                 <NoResults>
-                    <ReactLoading type={'bubbles'} color={'#6F6F6F'} height={'10%'} width={'10%'} />
+                    Loading..
                 </NoResults>
             )
         }
@@ -27,6 +29,53 @@ const Results = () => {
         )
     }
 
+    const showSortIcon = useCallback((header) => {
+        if (header !== sort.value) {
+            return(
+                <IconWrapper 
+                    onClick={() => {
+                        setSort({ value: header, asc: true });
+                        setResults(sortAsc(results, header));
+                    }}
+                >
+                    <FaChevronUp 
+                        size={12} 
+                        color={themeContext.colors.lightGrey}
+                    />
+                </IconWrapper>
+            )
+        }
+        if (sort.asc) {
+            return(
+                <IconWrapper
+                    onClick={() => {
+                        setSort({ value: header, asc: false });
+                        setResults(sortDsc(results, header));
+                    }}            
+                >
+                    <FaChevronUp 
+                        size={12} 
+                        color={themeContext.colors.primary}
+                    />
+                </IconWrapper>
+            )
+        } else {
+            return(
+                <IconWrapper
+                    onClick={() => {
+                        setSort({ value: header, asc: true });
+                        setResults(sortAsc(results, header));
+                    }}
+                >
+                    <FaChevronDown 
+                        size={12} 
+                        color={themeContext.colors.primary}
+                    />
+                </IconWrapper>
+            )
+        }
+    }, [sort, results, setResults, setSort, themeContext])
+
 
     const Table = useCallback(() => {
         return(
@@ -34,14 +83,14 @@ const Results = () => {
                 <StyledTable>
                     <thead>
                         <tr>
-                            <th>Employee ID</th>
-                            <th>Last Name</th>
-                            <th>First Name</th>
-                            <th>Title</th>
-                            <th>Email</th>
-                            <th>Phone Number</th>
-                            <th>Date of Birth</th>
-                            <th>Gender</th>
+                            <th>Employee ID {showSortIcon('id')}</th>
+                            <th>Last Name {showSortIcon('lastName')}</th>
+                            <th>First Name {showSortIcon('firstName')}</th>
+                            <th>Job Title {showSortIcon('title')}</th>
+                            <th>Email {showSortIcon('email')}</th>
+                            <th>Phone Number {showSortIcon('phone')}</th>
+                            <th>Date of Birth {showSortIcon('dob')}</th>
+                            <th>Gender {showSortIcon('gender')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,7 +110,7 @@ const Results = () => {
                 </StyledTable>
             </TableContainer>
         )
-    }, [results])
+    }, [results, showSortIcon])
 
 
     return (
@@ -70,7 +119,34 @@ const Results = () => {
                 <Filter />
                 <Column>
                     <Header>
-                        <Title>Results</Title>
+                        <Title style={{marginLeft: '2rem'}}>Results</Title>
+                        {/* <SortWrapper>
+                            <Title style={{marginRight: '1rem'}}>Sort By: </Title>
+                            <StyledSelect
+                                value={sort}
+                                onChange={(e) => {
+                                    setSort(e);
+                                    if (e.value === sort.value) {
+                                        setResults(sortDsc(results, e.value));
+                                        console.log('same')
+                                    } else {
+                                        setResults(sortDsc(results, e.value));
+                                    }
+                                }}
+                                options={sortOptions}
+                                isSearchable={false}
+                                styles={selectStyles}
+                                theme={theme => ({
+                                    ...theme,
+                                    borderRadius: '.5rem',
+                                    colors: {
+                                    ...theme.colors,
+                                    primary25: themeContext.colors.lightGrey,
+                                    primary: themeContext.colors.primary,
+                                    },
+                                })}
+                            />
+                        </SortWrapper> */}
                     </Header>
                     {showResults()}
                 </Column>
@@ -103,14 +179,6 @@ const Column = styled.div`
     justify-content: flex-start;
     align-items: flex-start;
     height: 100%;
-`
-
-const Header = styled.div`
-    align-self: flex-start;
-    width: 100%;
-    margin-top: 0;
-    display: flex;
-    justify-content: space-between;
 `
 
 const NoResults = styled.div`
@@ -146,11 +214,23 @@ const StyledTable = styled.table`
         top: 0;
         background-color: #fff;
         border-bottom: 1px solid ${({ theme }) => theme.colors.primary };
+        div {
+            float: right;
+            margin: auto auto auto 1rem;
+            display: table-cell;
+            vertical-align: middle;
+        }
     };
     td {
         border-top: 1px solid grey;
     };
-    tbody {
+`
 
-    }
+const IconWrapper = styled.div`
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 `

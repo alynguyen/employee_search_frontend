@@ -11,3 +11,8 @@ input:focus, textarea:focus, select:focus {
     background-color: #fff;
     outline: 0;
 }
+
+button:focus {
+	outline: 0;
+	box-shadow: none;
+}
