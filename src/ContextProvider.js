@@ -5,6 +5,12 @@ import { sortAsc, getFilters, getAgeFilters } from './utils';
 
 export const Context = createContext();
 
+// Switch to localhost URL if running on local
+
+const URL = 'http://18.222.252.17:3001/search';
+// const URL = 'http://localhost:3001/search';
+
+
 export const ContextProvider = ({ children }) => {
     const [view, setView] = useState('search');
     const [loading, setLoading] = useState(false);
@@ -35,7 +41,7 @@ export const ContextProvider = ({ children }) => {
         setError(false);
         setLoading(true);
         try {
-            const res = await fetch('http://localhost:3001/search', {
+            const res = await fetch(URL, {
                 method: 'POST',
                 headers: new Headers({
                     'Content-Type': 'application/json',
